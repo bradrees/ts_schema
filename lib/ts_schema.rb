@@ -17,7 +17,7 @@ module TsSchema
     end
 
     def generate
-      if ActiveRecord::Base.connection.migration_context.responds_to?(:needs_migration?) && ActiveRecord::Base.connection.migration_context.needs_migration?
+      if ActiveRecord::Base.connection.respond_to?(:migration_context) && ActiveRecord::Base.connection.migration_context.needs_migration?
         puts "Aborting: There are pending migrations"
       else
         SchemaGenerator.new(@configuration).generate
@@ -25,7 +25,7 @@ module TsSchema
     end
 
     def output_file
-      if ActiveRecord::Base.connection.migration_context.responds_to?(:needs_migration?) && ActiveRecord::Base.connection.migration_context.needs_migration?
+      if ActiveRecord::Base.connection.respond_to?(:migration_context) && ActiveRecord::Base.connection.migration_context.needs_migration?
         puts "Aborting: There are pending migrations"
       else
         SchemaGenerator.new(@configuration).output_file
